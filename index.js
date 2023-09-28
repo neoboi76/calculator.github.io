@@ -1,4 +1,8 @@
-let calculation = localStorage.getItem('calculation'); 
+let calculation = localStorage.getItem('calculation');  
+document.querySelector('.js-field').innerHTML = calculation;
+let numbers = document.querySelectorAll('.js-numbers');
+let operators = document.querySelectorAll('.js-operators');
+let misc = document.querySelectorAll('.js-misc');
 
 if (!calculation) {
 
@@ -6,25 +10,53 @@ if (!calculation) {
 
 }
 
-console.log(eval('0.5 + 0.3'))
+numbers.forEach((num, index) => {
+  num.addEventListener('click', (value, index) => {
 
-if (calculation === undefined || calculation === null) {
+    updateCalculation(num.innerText);
+  
+  })
+})
 
-  calculation = undefined;
-  document.querySelector('.js-field').innerHTML = calculation;
+operators.forEach((operator, index) => {
+  operator.addEventListener('click', () => {
+    
+      updateCalculation(operator.innerText);
+  })
+})
 
-}
+misc.forEach((sym, index) => {
+  sym.addEventListener('click', () => {
+    
+    updateCalculation(sym.innerText);
+
+    if (sym.innerText == 'Clear') {
+      calculation = '';
+      updateCalculation('Cleared');
+    }
+
+  })
+})
+
 
 function updateCalculation (strg) {
+ 
+  if (strg == '=') {
+    calculation = `= ${eval(calculation)}`;
+  }
+  
+  else if (strg == 'Cleared') {
+    localStorage.removeItem(`calculation`);
+  }
+  
+  else {
+    calculation += strg;
+    
+  }
 
-
-calculation += strg;
-
-console.log(calculation);
-
-localStorage.setItem('calculation',calculation);
 
 document.querySelector('.js-field').innerHTML = calculation;
 
+localStorage.setItem('calculation',calculation); 
 
 }
