@@ -1,18 +1,20 @@
 //Declarations
 
 let calculation = localStorage.getItem('calculation');//Saves current calculation in local storage
-document.querySelector('.js-field').innerHTML = calculation;
+document.querySelector('.js-txt').innerHTML = calculation;
 let numbers = document.querySelectorAll('.js-numbers');//Numbers
 let operators = document.querySelectorAll('.js-operators');//Operators
 let misc = document.querySelectorAll('.js-misc');//Special symbols ('.', '=', 'Ans', etc.)
 let result = null;
+let temp = null;
 
 //Executables
 
 //Accounts for all numbers inputted
-numbers.forEach((num, index) => {
+numbers.forEach((num, index) => {//Beginning of numbers for.each
   num.addEventListener('click', (value, index) => {
 
+    temp = false;
     updateCalculation(num.innerText);
 
     if (result !== null) {
@@ -22,17 +24,24 @@ numbers.forEach((num, index) => {
     }
   
   })
-})
 
-operators.forEach((operator, index) => {
+})//End of numbers for.each
+
+//Accounts for all operators
+operators.forEach((operator, index) => {//Beginning of operator for.each
   operator.addEventListener('click', () => {
     
+      if (operator.innerText && temp !== false) {
+        updateCalculation('Cleared');
+        updateCalculation('Ans');
+      }
       updateCalculation(operator.innerText);
 
   })
-})
+})//End of operator for.each
 
-misc.forEach((sym, index) => {
+//Accounts for all special symbols
+misc.forEach((sym, index) => {//Beginning of misc for.each
   sym.addEventListener('click', () => {
     
     updateCalculation(sym.innerText);
@@ -54,36 +63,43 @@ misc.forEach((sym, index) => {
     }
 
   })
-})
 
-function updateCalculation (strg) {
+})//End of misc for.each
+
+//Function that renders the calculation on the page
+function updateCalculation (strg) {//Beginning of updateCalculation Function
   
-  if (strg == '=') {
+  switch (strg) {
 
-    result = eval(calculation)
-    answer = result; 
-    
-    if (result !== undefined) {
-      calculation = `= ${result}`;
+    case '=': {
+
+      result = eval(calculation)
+      answer = result; 
+      temp = true;
+      
+      if (result !== undefined) {
+        calculation = `= ${result}`;
+      }
+
     }
+      break;
+
+    case 'Ans':
+      calculation += answer;
+      break;
+      
+    case 'Cleared': {
+      calculation = ' ';
+      result = null;
+      localStorage.removeItem('calculation');
+    }
+      break;
+
+    default: calculation += strg;
   }
-
-  else if (strg == 'Ans') {
-    calculation += answer;
-  } 
-
-  else if (strg == 'Cleared') {
-    calculation = ' ';
-    result = null;
-    localStorage.removeItem('calculation');
-  }
-
-  else {
-    calculation += strg;
-  }
-
-
+  
+  console.log(typeof(result));
   document.querySelector('.js-field').innerHTML = calculation;
   localStorage.setItem('calculation', calculation);
 
-}
+}//End of updateCalculation Function
