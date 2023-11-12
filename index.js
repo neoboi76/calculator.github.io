@@ -98,7 +98,6 @@ function updateCalculation (strg) {//Beginning of updateCalculation Function
     default: calculation += strg;
   }
   
-  console.log(typeof(result));
   document.querySelector('.js-field').innerHTML = calculation;
   localStorage.setItem('calculation', calculation);
 
