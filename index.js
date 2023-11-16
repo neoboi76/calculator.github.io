@@ -6,7 +6,7 @@ let numbers = document.querySelectorAll('.js-numbers');//Numbers
 let operators = document.querySelectorAll('.js-operators');//Operators
 let misc = document.querySelectorAll('.js-misc');//Special symbols ('.', '=', 'Ans', etc.)
 let result = null;
-let temp = null;
+let temp = false;
 
 //Executables
 
@@ -95,7 +95,7 @@ function updateCalculation (strg) {//Beginning of updateCalculation Function
     }
       break;
 
-    default: calculation += strg;
+    default: calculation += strg; temp = false;
   }
   
   document.querySelector('.js-field').innerHTML = calculation;
