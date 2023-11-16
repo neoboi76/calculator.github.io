@@ -1,3 +1,3 @@
 # calculator.github.io
 
-Calculator web page (not finished yet)
+Calculator web page 
